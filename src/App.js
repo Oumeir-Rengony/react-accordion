@@ -10,7 +10,7 @@ export default function App() {
       <h1>Simple Accordion Example</h1>
 
       {/* Accordion props: openTpe = simple\auto  */}
-      <Accordion openType="simple">
+      <Accordion openType="auto">
 
         <AccordionPanel title="First">
           <h2>My content</h2>

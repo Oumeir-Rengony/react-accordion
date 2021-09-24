@@ -13,8 +13,7 @@ const AccordionPanel = ({ children, title }) => {
     <AccordionPanelWrapper>
       <div className="accordion-title">
         {title}
-        {/* <span className={`arrow ${active ? "arrow-down" : "arrow-up"}`}></span> */}
-        <span className="arrow arrow-up"></span>
+        <span className="arrow"></span>
       </div>
       <div
         className="accordion-content"
@@ -47,16 +46,8 @@ const AccordionPanelWrapper = styled.div`
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
       margin-left: 4px;
-    }
-
-    .arrow-up {
       border-top: 0;
       border-bottom: 5px solid black;
-    }
-
-    .arrow-down {
-      border-top: 5px solid #f00;
-      border-bottom: 0;
     }
   }
 
@@ -65,8 +56,16 @@ const AccordionPanelWrapper = styled.div`
     padding: 8px;
   }
 
-  .show-panel {
-    display: block;
+  //the magic happens here if open present show panel
+  .open {
+    .arrow {
+      border-top: 5px solid #f00;
+      border-bottom: 0;
+    }
+
+    &+.accordion-content{
+      display: block
+    }
   }
 `;
 
