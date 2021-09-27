@@ -1,38 +1,37 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Accordion = ({ children, openType }) => {
-  const accordionRef = useRef(null);
+  const [{ toggled }, setToggled] = useState({ toggled: [] });
 
   useEffect(() => {
-    //Toggle button
-    const accordionToggle =
-      accordionRef.current.querySelectorAll(".accordion-title");
-
-    accordionToggle.forEach((el, index) => {
-      
-      //open 1st panel if type = auto
-      if (openType === "auto") {
-        accordionToggle[0].classList.add("open");
-      }
-
-      // add click listener on toggle
-      el.addEventListener("click", (event) => {
-
-        //auto close all panel if auto
-        if (openType === "auto") {
-          accordionToggle.forEach((el) => {
-            el.classList.remove("open");
-          });
-        }
-        //toggle clicked element
-        el.classList.toggle("open");
-      });
-
-    });
+    openType === "auto"
+      ? setToggled({ toggled: [0] })
+      : setToggled({ toggled: [] });
   }, [openType]);
 
-  return <AccordionWrapper ref={accordionRef}>{children}</AccordionWrapper>;
+  const togglePanel = (index) => {
+    const idList =
+      openType === "auto"
+        ? [index]
+        : toggled.includes(index)
+        ? toggled.filter((i) => i !== index)
+        : toggled.concat(index);
+
+    setToggled({ toggled: idList });
+  };
+
+  return (
+    <AccordionWrapper>
+      {React.Children.map(children, (component, index) => {
+        return React.cloneElement(component, {
+          index,
+          toggled: toggled.includes(index),
+          togglePanel
+        });
+      })}
+    </AccordionWrapper>
+  );
 };
 
 const AccordionWrapper = styled.div`

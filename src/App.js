@@ -11,7 +11,6 @@ export default function App() {
 
       {/* Accordion props: openTpe = simple\auto  */}
       <Accordion openType="simple">
-
         <AccordionPanel title="First">
           <h2>My content</h2>
           <Audio title="2021 hit list" track="simple album" />

@@ -1,24 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 
-const AccordionPanel = ({ children, title }) => {
-  const accordionContentRef = useRef(null);
-
-  useEffect(() => {
-    accordionContentRef.current.firstChild.style.margin = "16px";
-  }, []);
-
-
+const AccordionPanel = ({ children, title, index, toggled, togglePanel }) => {
   return (
     <AccordionPanelWrapper>
-      <div className="accordion-title">
+      <div className="accordion-toggle" onClick={() => togglePanel(index)}>
         {title}
-        <span className="arrow"></span>
+        <span className={`arrow-up ${toggled ? "arrow-down" : ""}`}></span>
       </div>
-      <div
-        className="accordion-content"
-        ref={accordionContentRef}
-      >
+      <div className={`accordion-content ${toggled ? "show-panel" : ""}`}>
         {children}
       </div>
     </AccordionPanelWrapper>
@@ -31,7 +21,7 @@ const AccordionPanelWrapper = styled.div`
   border-radius: 8px;
   border: solid #dbdbdb 1px;
 
-  .accordion-title {
+  .accordion-toggle {
     background-color: #dbdbdb;
     display: flex;
     align-items: center;
@@ -40,32 +30,29 @@ const AccordionPanelWrapper = styled.div`
     border-radius: 8px;
     cursor: pointer;
 
-    .arrow {
+    .arrow-up {
       width: 0px;
       height: 0px;
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      margin-left: 4px;
       border-top: 0;
       border-bottom: 5px solid black;
+      margin-left: 4px;
+    }
+
+    .arrow-down {
+      border-top: 5px solid #f00;
+      border-bottom: 0;
     }
   }
 
   .accordion-content {
-    display:none;
+    display: none;
     padding: 8px;
   }
 
-  //the magic happens here if open present show panel
-  .open {
-    .arrow {
-      border-top: 5px solid #f00;
-      border-bottom: 0;
-    }
-
-    &+.accordion-content{
-      display: block
-    }
+  .show-panel {
+    display: block;
   }
 `;
 
